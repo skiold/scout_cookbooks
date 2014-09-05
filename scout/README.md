@@ -88,7 +88,7 @@ If the <code>[:scout][:key]</code> attribute is not provided or the scout execut
     </tr>
     <tr>
       <td>[:scout][:gem_shell_opts]</td>
-      <td>A hash of valid [Mixlib::ShellOut](https://github.com/opscode/mixlib-shellout) options. The recipe shells out to the <code>gem</code> command for installing gems. You can set things like the user/group to shell out as, shell environment variables such as $PATH, etc.</td>
+      <td>A hash of valid <a href="https://github.com/opscode/mixlib-shellout">Mixlib::ShellOut</a> options. The recipe shells out to the <code>gem</code> command for installing gems. You can set things like the user/group to shell out as, shell environment variables such as $PATH, etc.</td>
       <td><code>nil</code></td>
     </tr>
     <tr>
