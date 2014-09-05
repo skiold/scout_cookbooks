@@ -20,27 +20,14 @@ user node[:scout][:user] do
 end.run_action(:create)
 
 # install scout agent gem
-gem_package "scout" do
-  if node[:scout][:rvm_wrapper]
-    gem_binary File.join(node[:scout][:rvm_wrapper],"gem")
-  else
-    gem_binary File.join(RbConfig::CONFIG['bindir'],"gem")
-  end
-  version node[:scout][:version]
-  action :upgrade
+if node[:scout][:version]
+  Scout.install_gem(node, "scout --version #{node[:scout][:version]}")
+else
+  Scout.install_gem(node, "scout")
 end
 
 if node[:scout][:key]
-  rvm_wrapper = node[:scout][:rvm_wrapper] ? node[:scout][:rvm_wrapper] : ""
-  if rvm_wrapper and File.exist?(File.join(rvm_wrapper, "scout"))
-    scout_bin = File.join(rvm_wrapper, "scout")
-  elsif node[:scout][:bin] and File.exist?(node[:scout][:bin])
-    scout_bin = node[:scout][:bin]
-  elsif File.exist?("#{Gem.default_bindir}/scout")
-    scout_bin = "#{Gem.default_bindir}/scout"
-  else
-    scout_bin = ""
-  end
+  scout_bin = Scout.scout_binary(node)
   name_attr = node[:scout][:name] ? %{ --name "#{node[:scout][:name]}"} : ""
   server_attr = node[:scout][:server] ? %{ --server "#{node[:scout][:server]}"} : ""
   roles_attr = node[:scout][:roles] ? %{ --roles "#{node[:scout][:roles].map(&:to_s).join(',')}"} : ""
@@ -92,7 +79,7 @@ else
 end
 
 (node[:scout][:plugin_gems] || []).each do |gemname|
-  gem_package gemname
+  Scout.install_gem(node, gemname)
 end
 
 # Create plugin lookup properties
@@ -112,7 +99,7 @@ template "/home/#{node[:scout][:user]}/.scout/plugins.properties" do
       plugin_properties[property] = Chef::EncryptedDataBagItem.load(lookup_hash[:encrypted_data_bag], lookup_hash[:item])[lookup_hash[:key]]
     end
     {
-      plugin_properties: plugin_properties
+      :plugin_properties => plugin_properties
     }
   }
   action :create

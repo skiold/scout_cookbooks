@@ -83,12 +83,17 @@ If the <code>[:scout][:key]</code> attribute is not provided or the scout execut
     </tr>
     <tr>
       <td>[:scout][:rvm_wrapper]</td>
-      <td>The full path to an rvm wrapper where the scout gem and binary will be installed. Overrides <code>[:scout][:bin]</code>. Example: <code>:rvm_wrapper => "/home/vagrant/.rvm/wrappers/ruby-1.9.3-p547"</code></td>
+      <td>The full path to an rvm wrapper where the scout gem and binary will be installed. Overrides <code>[:scout][:bin]</code>. If installing under a user based RVM install, you should also set the <code>:user</code> and <code>:group</code> options in <code>:gem_shell_opts</code> (see below). Example: <code>:rvm_wrapper => "/home/vagrant/.rvm/wrappers/ruby-1.9.3-p547"</code></td>
+      <td><code>nil</code></td>
+    </tr>
+    <tr>
+      <td>[:scout][:gem_shell_opts]</td>
+      <td>A hash of valid <a href="https://github.com/opscode/mixlib-shellout">Mixlib::ShellOut</a> options. The recipe shells out to the <code>gem</code> command for installing gems. You can set things like the user/group to shell out as, shell environment variables such as $PATH, etc.</td>
       <td><code>nil</code></td>
     </tr>
     <tr>
       <td>[:scout][:bin]</td>
-      <td>The full path to the scout gem executable. When <code>nil</code>, this is discovered via <code>Gem#default_bindir</code>. This value is ignored when <code>[:scout][:rvm_wrapper]</code> is set.</td>
+      <td>The full path to the scout gem executable. When <code>nil</code>, checks <code>Gem::bindir</code>via invoking the first ruby found in <code>$PATH</code> (see <code>:gem_shell_opts</code>), or if no ruby is found, the Chef internal ruby. This value is ignored when <code>[:scout][:rvm_wrapper]</code> is set.</td>
       <td><code>nil</code></td>
     </tr>
     <tr>
