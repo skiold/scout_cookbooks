@@ -37,8 +37,11 @@ module Scout
     return scout_binary
   end
 
-  def self.install_gem(node, name)
-    gem_cmd = Mixlib::ShellOut.new("#{gem_binary(node)}","install", "#{name}", {}.merge(node[:scout][:gem_shell_opts]||{}))
+  def self.install_gem(node, name_array)
+    # name_array can be any array with:
+    #   - a single element, e.g. ["scout"]
+    #   - multiple elements accepted by 'gem install', e.g. ["scout", "--version", "5.9.5"]
+    gem_cmd = Mixlib::ShellOut.new("#{gem_binary(node)}","install", *name_array, {}.merge(node[:scout][:gem_shell_opts]||{}))
     gem_cmd.run_command
     gem_cmd.error!
   end
