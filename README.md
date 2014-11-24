@@ -36,14 +36,14 @@ The following platforms are supported by this cookbook, meaning that the recipes
       <td style="width:15%">[:scout][:key]</td>
       <td>
         The agent requires a Scout account and the account's associated key. The key can be found in the account settings tab within the Scout UI or in the server setup instructions. The key looks like:
-          <code>0mZ6BD9DR0qyZjaBLCPZZWkW3n2Wn7DV9xp5gQPs</code> 
+          <code>0mZ6BD9DR0qyZjaBLCPZZWkW3n2Wn7DV9xp5gQPs</code>
       </td>
       <td style="width:15%"><code>nil</code></td>
     </tr>
   </tbody>
 </table>
 
-If the <code>[:scout][:key]</code> attribute is not provided or the scout executable is not found, the Cron job won't be installed but all other parts of the recipe will execute. 
+If the <code>[:scout][:key]</code> attribute is not provided or the scout executable is not found, the Cron job won't be installed but all other parts of the recipe will execute.
 
 ## Optional Attributes
 
@@ -65,6 +65,11 @@ If the <code>[:scout][:key]</code> attribute is not provided or the scout execut
       <td>[:scout][:group]</td>
       <td>User group to run the Scout agent under. Will be created if it does not exist.</td>
       <td><code>scout</code></td>
+    </tr>
+    <tr>
+      <td>[:scout][:hostname]</td>
+      <td>Optional hostname to uniquely identify this host to Scout.</td>
+      <td><code>nil</code></td>
     </tr>
     <tr>
       <td>[:scout][:name]</td>
