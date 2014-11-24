@@ -28,6 +28,7 @@ end
 
 if node[:scout][:key]
   scout_bin = Scout.scout_binary(node)
+  hostname_attr = node[:scout][:hostname] ? %{ --hostname "#{node[:scout][:hostname]}"} : ""
   name_attr = node[:scout][:name] ? %{ --name "#{node[:scout][:name]}"} : ""
   server_attr = node[:scout][:server] ? %{ --server "#{node[:scout][:server]}"} : ""
   roles_attr = node[:scout][:roles] ? %{ --roles "#{node[:scout][:roles].map(&:to_s).join(',')}"} : ""
@@ -38,7 +39,7 @@ if node[:scout][:key]
   # schedule scout agent to run via cron
   cron "scout_run" do
     user node[:scout][:user]
-    command "#{scout_bin} #{node[:scout][:key]}#{name_attr}#{server_attr}#{roles_attr}#{http_proxy_attr}#{https_proxy_attr}#{environment_attr}"
+    command "#{scout_bin} #{node[:scout][:key]}#{hostname_attr}#{name_attr}#{server_attr}#{roles_attr}#{http_proxy_attr}#{https_proxy_attr}#{environment_attr}"
     only_if do File.exist?(scout_bin) end
   end
 else

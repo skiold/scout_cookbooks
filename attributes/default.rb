@@ -8,6 +8,7 @@ default[:scout][:key] = nil
 # optional
 default[:scout][:user] = "scout"
 default[:scout][:group] = "scout"
+default[:scout][:hostname] = nil
 default[:scout][:name] = nil
 default[:scout][:roles] = nil
 default[:scout][:bin] = nil
