@@ -42,6 +42,19 @@ if node[:scout][:key]
     command "#{scout_bin} #{node[:scout][:key]}#{hostname_attr}#{name_attr}#{server_attr}#{roles_attr}#{http_proxy_attr}#{https_proxy_attr}#{environment_attr}"
     only_if do File.exist?(scout_bin) end
   end
+
+  service "cron" do
+    case node["platform"]
+    when "centos","redhat","fedora"
+      service_name "crond"
+    end
+    supports :restart => true
+    action :restart
+    # Ideally we would only restart cron when the user/group info changes, but the subscribe doesn't seem to be working correctly.
+    # https://github.com/scoutapp/scout_cookbooks/issues/25
+    # action :nothing
+    # subscribes :restart, "user[#{node[:scout][:user]}]", :delayed
+  end
 else
   Chef::Log.warn "The agent will not report to scoutapp.com as a key wasn't provided. Provide a [:scout][:key] attribute to complete the install."
 end
