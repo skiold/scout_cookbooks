@@ -33,7 +33,7 @@ The following platforms are supported by this cookbook, meaning that the recipes
   </thead>
   <tbody>
     <tr>
-      <td style="width:15%">[:scout][:key]</td>
+      <td style="width:15%">[:scout][:account_key]</td>
       <td>
         The agent requires a Scout account and the account's associated key. The key can be found in the account settings tab within the Scout UI or in the server setup instructions. The key looks like:
           <code>0mZ6BD9DR0qyZjaBLCPZZWkW3n2Wn7DV9xp5gQPs</code>
@@ -43,7 +43,7 @@ The following platforms are supported by this cookbook, meaning that the recipes
   </tbody>
 </table>
 
-If the <code>[:scout][:key]</code> attribute is not provided or the scout executable is not found, the Cron job won't be installed but all other parts of the recipe will execute.
+If the <code>[:scout][:account_key]</code> attribute is not provided the scout agent won't be installed but all other parts of the recipe will execute.
 
 ## Optional Attributes
 
@@ -57,22 +57,12 @@ If the <code>[:scout][:key]</code> attribute is not provided or the scout execut
   </thead>
   <tbody>
     <tr>
-      <td>[:scout][:user]</td>
-      <td>User to run the Scout agent under. Will be created if it does not exist.</td>
-      <td><code>scout</code></td>
-    </tr>
-    <tr>
-      <td>[:scout][:group]</td>
-      <td>User group to run the Scout agent under. Will be created if it does not exist.</td>
-      <td><code>scout</code></td>
-    </tr>
-    <tr>
       <td>[:scout][:hostname]</td>
       <td>Optional hostname to uniquely identify this host to Scout.</td>
       <td><code>nil</code></td>
     </tr>
     <tr>
-      <td>[:scout][:name]</td>
+      <td>[:scout][:display_name]</td>
       <td>Optional name to display for this node within the Scout UI.</td>
       <td><code>nil</code></td>
     </tr>
@@ -87,8 +77,8 @@ If the <code>[:scout][:key]</code> attribute is not provided or the scout execut
       <td><code>nil</code></td>
     </tr>
     <tr>
-      <td>[:scout][:rvm_wrapper]</td>
-      <td>The full path to an rvm wrapper where the scout gem and binary will be installed. Overrides <code>[:scout][:bin]</code>. If installing under a user based RVM install, you should also set the <code>:user</code> and <code>:group</code> options in <code>:gem_shell_opts</code> (see below). Example: <code>:rvm_wrapper => "/home/vagrant/.rvm/wrappers/ruby-1.9.3-p547"</code></td>
+      <td>[:scout][:ruby_path]</td>
+      <td>The full path to a ruby executable or rvm wrapper which will run the Scout Ruby code and where the gem dependencies will be installed. If installing under a user based RVM install, you should also set the <code>:user</code> and <code>:group</code> options in <code>:gem_shell_opts</code> (see below). Example: <code>:rvm_wrapper => "/home/vagrant/.rvm/wrappers/ruby-1.9.3-p547"</code></td>
       <td><code>nil</code></td>
     </tr>
     <tr>
@@ -97,13 +87,8 @@ If the <code>[:scout][:key]</code> attribute is not provided or the scout execut
       <td><code>nil</code></td>
     </tr>
     <tr>
-      <td>[:scout][:bin]</td>
-      <td>The full path to the scout gem executable. When <code>nil</code>, checks <code>Gem::bindir</code>via invoking the first ruby found in <code>$PATH</code> (see <code>:gem_shell_opts</code>), or if no ruby is found, the Chef internal ruby. This value is ignored when <code>[:scout][:rvm_wrapper]</code> is set.</td>
-      <td><code>nil</code></td>
-    </tr>
-    <tr>
       <td>[:scout][:version]</td>
-      <td>Gem version to install. <code>nil</code> installs the latest release.</td>
+      <td>Scout agent version to install. <code>nil</code> installs the latest release.</td>
       <td><code>nil</code></td>
     </tr>
     <tr>
