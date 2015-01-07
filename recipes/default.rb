@@ -4,9 +4,27 @@
 
 Chef::Log.info "Loading: #{cookbook_name}::#{recipe_name}"
 
-apt_repository "scout-archive" do
-  key "https://archive.scoutapp.com/scout-archive.key"
-  uri "http://archive.scoutapp.com"
+case node[:platform]
+when 'ubuntu'
+  apt_repository "scout" do
+    key "https://archive.scoutapp.com/scout-archive.key"
+    uri "http://archive.scoutapp.com"
+    components ["ubuntu", "main"]
+  end
+when 'redhat', 'centos'
+  yum_repository "scout" do
+    description "Scout server monitoring - scoutapp.com"
+    baseurl "http://archive.scoutapp.com/rhel/$releasever/main/$basearch/"
+    gpgkey "https://archive.scoutapp.com/RPM-GPG-KEY-scout"
+    action :create
+  end
+when 'fedora'
+  yum_repository "scout" do
+    description "Scout server monitoring - scoutapp.com"
+    baseurl "http://archive.scoutapp.com/fedora/$releasever/main/$basearch/"
+    gpgkey "https://archive.scoutapp.com/RPM-GPG-KEY-scout"
+    action :create
+  end
 end
 
 if node[:scout][:account_key]
@@ -15,6 +33,10 @@ if node[:scout][:account_key]
   package "scoutd" do
     action :install
     version node[:scout][:version]
+  end
+
+  service "scout" do
+    action :start
   end
 
   template "/etc/scout/scoutd.yml" do
@@ -34,9 +56,16 @@ if node[:scout][:account_key]
       :https_proxy => node[:scout][:https_proxy]
     }
     action :create
+    notifies :restart, 'service[scout]', :delayed
   end
 else
   Chef::Log.warn "The agent will not report to scoutapp.com as a key wasn't provided. Provide a [:scout][:account_key] attribute to complete the install."
+end
+
+directory "/var/lib/scoutd/.scout" do
+  owner "scoutd"
+  group "scoutd"
+  recursive true
 end
 
 if node[:scout][:public_key]
@@ -69,16 +98,11 @@ end
 end
 
 # Create plugin lookup properties
-directory "/home/#{node[:scout][:user]}/.scout" do
-  owner node[:scout][:user]
-  group node[:scout][:group]
-  recursive true
-end
-template "/home/#{node[:scout][:user]}/.scout/plugins.properties" do
+template "/var/lib/scoutd/.scout/plugins.properties" do
   source "plugins.properties.erb"
   mode 0664
-  owner node[:scout][:user]
-  group node[:scout][:group]
+  owner "scoutd"
+  group "scoutd"
   variables lazy {
     plugin_properties = {}
     node['scout']['plugin_properties'].each do |property, lookup_hash|
