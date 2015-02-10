@@ -35,8 +35,12 @@ if node[:scout][:account_key]
     version node[:scout][:version]
   end
 
+  # We only need the scout service definition so that we can
+  # restart scout after we configure scoutd.yml
   service "scout" do
-    action :start
+    action :nothing
+    supports :restart => true
+    restart_command "scoutctl restart"
   end
 
   template "/etc/scout/scoutd.yml" do
