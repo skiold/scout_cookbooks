@@ -96,7 +96,7 @@ end
   # wrap calls to the Scout library in ruby_block
   ruby_block "install a gem" do
     block do
-      Scout.install_gem(node, [gemname])
+      Scout.install_gem(node, Array(gemname))
     end
   end
 end
