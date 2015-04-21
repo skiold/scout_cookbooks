@@ -83,7 +83,7 @@ If the <code>[:scout][:key]</code> attribute is not provided or the scout execut
     </tr>
     <tr>
       <td>[:scout][:plugin_gems]</td>
-      <td>An Array of plugin gem dependencies to install. For example, you may want to install the <code>redis</code> gem if this node uses the redis plugin.</td>
+      <td>An Array of plugin gem dependencies to install. For example, you may want to install the <code>redis</code> gem if this node uses the redis plugin. Each entry in the array can be the name of a gem, or an array specifying the arguments required to install a specific version of a gem. For example, the following configuration will install the latest version of the <code>redis</code> gem: <code>node[:scout][:plugin_gems] = ['redis']</code> This configuration, on the other hand, will install version 3.2.1: <code>node[:scout][:plugin_gems] = [%w(redis --version 3.2.1)]</code></td>
       <td><code>nil</code></td>
     </tr>
     <tr>
