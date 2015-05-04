@@ -9,3 +9,11 @@ version           "0.4"
 %w[ubuntu debian redhat centos fedora scientific amazon].each do |os|
   supports os
 end
+
+# needed for ubuntu
+# available @ https://supermarket.chef.io/cookbooks/apt
+depends "apt"
+
+# needed for redhat, centos, fedora
+# available @ https://supermarket.chef.io/cookbooks/yum
+depends "yum"
