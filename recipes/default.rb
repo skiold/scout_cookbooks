@@ -94,6 +94,7 @@ else
   bash "delete_scout_shutdown" do
     user "root"
     code "rm -f /etc/rc0.d/scout_shutdown"
+    only_if { File.exists?("/etc/rc0.d/scout_shutdown") }
   end
 end
 
