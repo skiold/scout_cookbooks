@@ -11,6 +11,12 @@ when 'ubuntu'
     uri "http://archive.scoutapp.com"
     components ["ubuntu", "main"]
   end
+when 'debian'
+  apt_repository "scout" do
+    key "https://archive.scoutapp.com/scout-archive.key"
+    uri "http://archive.scoutapp.com"
+    components [node[:lsb][:codename], "main"]
+  end
 when 'redhat', 'centos'
   yum_repository "scout" do
     description "Scout server monitoring - scoutapp.com"
