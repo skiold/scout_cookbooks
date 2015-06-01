@@ -69,7 +69,7 @@ if node[:scout][:account_key]
     notifies :restart, 'service[scout]', :delayed
   end
 else
-  Chef::Log.warn "The agent will not report to scoutapp.com as a key wasn't provided. Provide a [:scout][:account_key] attribute to complete the install."
+  Chef::Application.fatal! "The agent will not report to scoutapp.com as a key wasn't provided. Provide a [:scout][:account_key] attribute to complete the install."
 end
 
 directory "/var/lib/scoutd/.scout" do
