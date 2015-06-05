@@ -68,7 +68,7 @@ If the <code>[:scout][:account_key]</code> attribute is not provided the scout a
     </tr>
     <tr>
       <td>[:scout][:roles]</td>
-      <td>An Array of roles for this node. Roles are defined through Scout's UI.</td>
+      <td>An comma-separated list of roles for this node. Roles are defined through Scout's UI.</td>
       <td><code>nil</code></td>
     </tr>
     <tr>
