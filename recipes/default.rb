@@ -75,6 +75,7 @@ end
 directory "/var/lib/scoutd/.scout" do
   owner "scoutd"
   group "scoutd"
+  mode "0700"
   recursive true
 end
 
