@@ -66,6 +66,7 @@ if node[:scout][:account_key]
       :https_proxy => node[:scout][:https_proxy]
     }
     action :create
+    sensitive true
     notifies :restart, 'service[scout]', :delayed
   end
 else
