@@ -33,7 +33,9 @@ when 'fedora'
   end
 end
 
-if node[:scout][:account_key]
+account_key = Scout.account_key(node)
+
+if account_key
   ENV['SCOUT_KEY'] = node[:scout][:account_key]
 
   package "scoutd" do
@@ -54,7 +56,7 @@ if node[:scout][:account_key]
     owner "scoutd"
     group "scoutd"
     variables :options => {
-      :account_key => node[:scout][:account_key],
+      :account_key => account_key,
       :hostname => node[:scout][:hostname],
       :display_name => node[:scout][:display_name],
       :log_file => node[:scout][:log_file],
@@ -70,7 +72,7 @@ if node[:scout][:account_key]
     notifies :restart, 'service[scout]', :delayed
   end
 else
-  Chef::Application.fatal! "The agent will not report to scoutapp.com as a key wasn't provided. Provide a [:scout][:account_key] attribute to complete the install."
+  Chef::Application.fatal! "The agent will not report to scoutapp.com as a key wasn't provided. Provide a [:scout][:account_key] or [:scout][:key][:bag_name] and [:scout][:key][:item_name] attribute to complete the install."
 end
 
 directory "/var/lib/scoutd/.scout" do

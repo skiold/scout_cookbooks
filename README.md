@@ -111,6 +111,16 @@ If the <code>[:scout][:account_key]</code> attribute is not provided the scout a
       <td>If true, will run a shutdown script to remove the server from Scout when the server is shutdown.</td>
       <td><code>nil</code></td>
     </tr>
+    <tr>
+      <td>[:scout][:key][:bag_name]</td>
+      <td>If speficied, the account_key will be loaded from the given encrypted data bag. (Note: must also specifiy `[:scout][:key][:item_name]`)</td>
+      <td><code>nil</code></td>
+    </tr>
+    <tr>
+      <td>[:scout][:key][:item_name]</td>
+      <td>If speficied, the account_key will be loaded from the given encrypted data bag item under the `account_key` value in the bag. (Note: must also specifiy `[:scout][:key][:bag_name]`)</td>
+      <td><code>nil</code></td>
+    </tr>
   </tbody>
 </table>
 
