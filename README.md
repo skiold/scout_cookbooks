@@ -112,6 +112,11 @@ If the <code>[:scout][:account_key]</code> attribute is not provided the scout a
       <td><code>nil</code></td>
     </tr>
     <tr>
+      <td>[:scout][:enable_scoutapp_repo]</td>
+      <td>If true, will install the correct archive.scoutapp.com repository based on the hosts platform.  Only disable if you have the scoutd package hosted in a repository already installed on the host.</td>
+      <td><code>nil</code></td>
+    </tr>
+    <tr>
       <td>[:scout][:key][:bag_name]</td>
       <td>If speficied, the account_key will be loaded from the given encrypted data bag. (Note: must also specifiy `[:scout][:key][:item_name]`)</td>
       <td><code>nil</code></td>
