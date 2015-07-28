@@ -10,14 +10,14 @@ when 'ubuntu'
     key "https://archive.scoutapp.com/scout-archive.key"
     uri "http://archive.scoutapp.com"
     components ["ubuntu", "main"]
-    only_if { node[:scout][:enable_scoutapp_repo] }
+    only_if { node[:scout][:repo][:enable] }
   end
 when 'debian'
   apt_repository "scout" do
     key "https://archive.scoutapp.com/scout-archive.key"
     uri "http://archive.scoutapp.com"
     components [node[:lsb][:codename], "main"]
-    only_if { node[:scout][:enable_scoutapp_repo] }
+    only_if { node[:scout][:repo][:enable] }
   end
 when 'redhat', 'centos'
   yum_repository "scout" do
@@ -25,7 +25,7 @@ when 'redhat', 'centos'
     baseurl "http://archive.scoutapp.com/rhel/$releasever/main/$basearch/"
     gpgkey "https://archive.scoutapp.com/RPM-GPG-KEY-scout"
     action :create
-    only_if { node[:scout][:enable_scoutapp_repo] }
+    only_if { node[:scout][:repo][:enable] }
   end
 when 'fedora'
   yum_repository "scout" do
@@ -33,7 +33,7 @@ when 'fedora'
     baseurl "http://archive.scoutapp.com/fedora/$releasever/main/$basearch/"
     gpgkey "https://archive.scoutapp.com/RPM-GPG-KEY-scout"
     action :create
-    only_if { node[:scout][:enable_scoutapp_repo] }
+    only_if { node[:scout][:repo][:enable] }
   end
 end
 
