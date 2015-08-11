@@ -36,19 +36,6 @@ end
 if node[:scout][:account_key]
   ENV['SCOUT_KEY'] = node[:scout][:account_key]
 
-  package "scoutd" do
-    action :install
-    version node[:scout][:version]
-  end
-
-  # We only need the scout service definition so that we can
-  # restart scout after we configure scoutd.yml
-  service "scout" do
-    action :nothing
-    supports :restart => true
-    restart_command "scoutctl restart"
-  end
-
   template "/etc/scout/scoutd.yml" do
     source "scoutd.yml.erb"
     owner "scoutd"
@@ -67,6 +54,28 @@ if node[:scout][:account_key]
     }
     action :create
     notifies :restart, 'service[scout]', :delayed
+  end
+
+  package "scoutd" do
+    action :install
+    version node[:scout][:version]
+  end
+
+  node[:scout][:groups].each do |os_group|
+    group os_group do
+      action  :modify
+      append  true
+      members 'scoutd'
+      system  true
+    end
+  end
+
+  # We only need the scout service definition so that we can
+  # restart scout after we configure scoutd.yml
+  service "scout" do
+    action :nothing
+    supports :restart => true
+    restart_command "scoutctl restart"
   end
 else
   Chef::Application.fatal! "The agent will not report to scoutapp.com as a key wasn't provided. Provide a [:scout][:account_key] attribute to complete the install."
