@@ -36,26 +36,6 @@ end
 if node[:scout][:account_key]
   ENV['SCOUT_KEY'] = node[:scout][:account_key]
 
-  template "/etc/scout/scoutd.yml" do
-    source "scoutd.yml.erb"
-    owner "scoutd"
-    group "scoutd"
-    variables :options => {
-      :account_key => node[:scout][:account_key],
-      :hostname => node[:scout][:hostname],
-      :display_name => node[:scout][:display_name],
-      :log_file => node[:scout][:log_file],
-      :ruby_path => node[:scout][:ruby_path],
-      :environment => node[:scout][:environment],
-      :roles => node[:scout][:roles],
-      :agent_data_file => node[:scout][:agent_data_file],
-      :http_proxy => node[:scout][:http_proxy],
-      :https_proxy => node[:scout][:https_proxy]
-    }
-    action :create
-    notifies :restart, 'service[scout]', :delayed
-  end
-
   package "scoutd" do
     action :install
     version node[:scout][:version]
@@ -76,6 +56,26 @@ if node[:scout][:account_key]
     action :nothing
     supports :restart => true
     restart_command "scoutctl restart"
+  end
+
+  template "/etc/scout/scoutd.yml" do
+    source "scoutd.yml.erb"
+    owner "scoutd"
+    group "scoutd"
+    variables :options => {
+      :account_key => node[:scout][:account_key],
+      :hostname => node[:scout][:hostname],
+      :display_name => node[:scout][:display_name],
+      :log_file => node[:scout][:log_file],
+      :ruby_path => node[:scout][:ruby_path],
+      :environment => node[:scout][:environment],
+      :roles => node[:scout][:roles],
+      :agent_data_file => node[:scout][:agent_data_file],
+      :http_proxy => node[:scout][:http_proxy],
+      :https_proxy => node[:scout][:https_proxy]
+    }
+    action :create
+    notifies :restart, 'service[scout]', :delayed
   end
 else
   Chef::Application.fatal! "The agent will not report to scoutapp.com as a key wasn't provided. Provide a [:scout][:account_key] attribute to complete the install."
