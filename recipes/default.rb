@@ -35,13 +35,22 @@ end
 
 if node[:scout][:account_key]
   ENV['SCOUT_KEY'] = node[:scout][:account_key]
+  ENV['SCOUT_HOSTNAME'] = node[:scout][:hostname]
+  ENV['SCOUT_DISPLAY_NAME'] = node[:scout][:display_name]
+  ENV['SCOUT_LOG_FILE'] = node[:scout][:log_file]
+  ENV['SCOUT_RUBY_PATH'] = node[:scout][:ruby_path]
+  ENV['SCOUT_ENVIRONMENT'] = node[:scout][:environment]
+  ENV['SCOUT_ROLES'] = node[:scout][:roles]
+  ENV['SCOUT_AGENT_DATA_FILE'] = node[:scout][:agent_data_file]
+  ENV['SCOUT_HTTP_PROXY'] = node[:scout][:http_proxy]
+  ENV['SCOUT_HTTPS_PROXY'] = node[:scout][:https_proxy]
 
   package "scoutd" do
     action :install
     version node[:scout][:version]
   end
 
-  node[:scout][:groups].each do |os_group|
+  Array(node[:scout][:groups]).each do |os_group|
     group os_group do
       action  :modify
       append  true
@@ -112,7 +121,7 @@ else
   end
 end
 
-(node[:scout][:plugin_gems] || []).each do |gemname|
+Array(node[:scout][:plugin_gems]).each do |gemname|
   # wrap calls to the Scout library in ruby_block
   ruby_block "install a gem" do
     block do
