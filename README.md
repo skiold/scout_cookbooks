@@ -1,4 +1,4 @@
-# chef-scout
+
 
 Installs the agent for [Scout](http://scoutapp.com), a hosted server monitoring service. This recipe:
 
@@ -23,90 +23,53 @@ The following platforms are supported by this cookbook, meaning that the recipes
 
 ## Required Attributes
 
-<table>
-  <thead>
-    <tr>
-      <th>Attribute</th>
-      <th>Description</th>
-      <th>Default Value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="width:15%">[:scout][:account_key]</td>
-      <td>
-        The agent requires a Scout account and the account's associated key. The key can be found in the account settings tab within the Scout UI or in the server setup instructions. The key looks like:
-          <code>0mZ6BD9DR0qyZjaBLCPZZWkW3n2Wn7DV9xp5gQPs</code>
-      </td>
-      <td style="width:15%"><code>nil</code></td>
-    </tr>
-  </tbody>
-</table>
+* [:scout][:account_key]
+The agent requires a Scout account and the account's associated key. The key can be found in the account settings tab within the Scout UI or in the server setup instructions. The key looks like: `0mZ6BD9DR0qyZjaBLCPZZWkW3n2Wn7DV9xp5gQPs`
+Default value: `nil`
 
-If the <code>[:scout][:account_key]</code> attribute is not provided the scout agent won't be installed but all other parts of the recipe will execute.
+If the `[:scout][:account_key]` attribute is not provided the scout agent won't be installed but all other parts of the recipe will execute.
 
 ## Optional Attributes
 
-<table>
-  <thead>
-    <tr>
-      <th style="width:20%">Attribute</th>
-      <th>Description</th>
-      <th>Default Value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>[:scout][:hostname]</td>
-      <td>Optional hostname to uniquely identify this host to Scout.</td>
-      <td><code>nil</code></td>
-    </tr>
-    <tr>
-      <td>[:scout][:display_name]</td>
-      <td>Optional name to display for this node within the Scout UI.</td>
-      <td><code>nil</code></td>
-    </tr>
-    <tr>
-      <td>[:scout][:roles]</td>
-      <td>An Array of roles for this node. Roles are defined through Scout's UI.</td>
-      <td><code>nil</code></td>
-    </tr>
-    <tr>
-      <td>[:scout][:plugin_gems]</td>
-      <td>An Array of plugin gem dependencies to install. For example, you may want to install the <code>redis</code> gem if this node uses the redis plugin. Each entry in the array can be the name of a gem, or an array specifying the arguments required to install a specific version of a gem. For example, the following configuration will install the latest version of the <code>redis</code> gem: <code>node[:scout][:plugin_gems] = ['redis']</code> This configuration, on the other hand, will install version 3.2.1: <code>node[:scout][:plugin_gems] = [%w(redis --version 3.2.1)]</code></td>
-      <td><code>nil</code></td>
-    </tr>
-    <tr>
-      <td>[:scout][:ruby_path]</td>
-      <td>The full path to a ruby executable or rvm wrapper which will run the Scout Ruby code and where the gem dependencies will be installed. If installing under a user based RVM install, you should also set the <code>:user</code> and <code>:group</code> options in <code>:gem_shell_opts</code> (see below). Example: <code>:rvm_wrapper => "/home/vagrant/.rvm/wrappers/ruby-1.9.3-p547"</code></td>
-      <td><code>nil</code></td>
-    </tr>
-    <tr>
-      <td>[:scout][:gem_shell_opts]</td>
-      <td>A hash of valid <a href="https://github.com/opscode/mixlib-shellout">Mixlib::ShellOut</a> options. The recipe shells out to the <code>gem</code> command for installing gems. You can set things like the user/group to shell out as, shell environment variables such as $PATH, etc.</td>
-      <td><code>nil</code></td>
-    </tr>
-    <tr>
-      <td>[:scout][:version]</td>
-      <td>Scout agent version to install. <code>nil</code> installs the latest release.</td>
-      <td><code>nil</code></td>
-    </tr>
-    <tr>
-      <td>[:scout][:public_key]</td>
-      <td>If you use self-signed custom plugins, set this attribute to the public key value and it'll be installed on the node.</td>
-      <td><code>nil</code></td>
-    </tr>
-    <tr>
-      <td>[:scout][:environment]</td>
-      <td>The environment you would like this server to belong to, if you use environments. Environments are defined through scoutapp.com's web UI.</td>
-      <td><code>nil</code></td>
-    </tr>
-    <tr>
-      <td>[:scout][:plugin_properties]</td>
-      <td>Hash. Used to generate a plugins.properties file from encrypted data bags for secure lookups. E.g. "haproxy.password" => {"encrypted_data_bag" => "shared_passwords", "item" => "haproxy_stats", "key" => "password"} will create a plugins.properties entry with "haproxy.password=PASSWORD" where PASSWORD is an encrypted data bag item "haproxy_stats" in encrypted_data_bag "shared_passwords" with key "password".</td>
-      <td><code>{}</code></td>
-  </tbody>
-</table>
+* [:scout][:hostname]
+Optional hostname to uniquely identify this host to Scout.
+Default value: `nil`
+
+* [:scout][:display_name]
+Optional name to display for this node within the Scout UI.
+Default value: `nil`
+
+* [:scout][:roles]
+An Array of roles for this node. Roles are defined through Scout's UI.
+Default value: `nil`
+
+* [:scout][:plugin_gems]
+An Array of plugin gem dependencies to install. For example, you may want to install the `redis` gem if this node uses the redis plugin. Each entry in the array can be the name of a gem, or an array specifying the arguments required to install a specific version of a gem. For example, the following configuration will install the latest version of the `redis` gem: `node[:scout][:plugin_gems] = ['redis']` This configuration, on the other hand, will install version 3.2.1: `node[:scout][:plugin_gems] = [%w(redis --version 3.2.1)]`
+Default value: `nil`
+
+* [:scout][:ruby_path]
+The full path to a ruby executable or rvm wrapper which will run the Scout Ruby code and where the gem dependencies will be installed. If installing under a user based RVM install, you should also set the `:user` and `:group` options in `:gem_shell_opts` (see below). Example: `:rvm_wrapper => "/home/vagrant/.rvm/wrappers/ruby-1.9.3-p547"`
+Default value: `nil`
+
+* [:scout][:gem_shell_opts]
+A hash of valid [MixLib::ShellOut](https://github.com/opscode/mixlib-shellout) options. The recipe shells out to the `gem` command for installing gems. You can set things like the user/group to shell out as, shell environment variables such as $PATH, etc.
+Default value: `nil`
+
+* [:scout][:version]
+Scout agent version to install. `nil` installs the latest release.
+Default value: `nil`
+
+* [:scout][:public_key]
+If you use self-signed custom plugins, set this attribute to the public key value and it'll be installed on the node.
+Default value: `nil`
+
+* [:scout][:environment]
+The environment you would like this server to belong to, if you use environments. Environments are defined through scoutapp.com's web UI.
+Default value: `nil`
+
+* [:scout][:plugin_properties]
+Hash. Used to generate a plugins.properties file from encrypted data bags for secure lookups. E.g. "haproxy.password" => {"encrypted_data_bag" => "shared_passwords", "item" => "haproxy_stats", "key" => "password"} will create a plugins.properties entry with "haproxy.password=PASSWORD" where PASSWORD is an encrypted data bag item "haproxy_stats" in encrypted_data_bag "shared_passwords" with key "password".
+Default value: `{}`
 
 ## Questions?
 
