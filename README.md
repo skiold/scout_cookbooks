@@ -1,4 +1,4 @@
-
+# chef-scout
 
 Installs the agent for [Scout](http://scoutapp.com), a hosted server monitoring service. This recipe:
 
