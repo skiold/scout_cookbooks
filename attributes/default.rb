@@ -21,3 +21,7 @@ default[:scout][:delete_on_shutdown] = false	# create rc.d script to remove the 
 default[:scout][:plugin_gems] = []   # list of gems to install to support plugins for role
 default[:scout][:plugin_properties] = {}
 default[:scout][:groups] = [] # list of groups to add the scoutd user to
+default[:scout][:repo][:enable] = true # create the apt/yum repo files for the scoutd repo. Only disable if you have the scoutd package hosted in a repository already installed on the host
+
+default[:scout][:key][:bag_name] = nil
+default[:scout][:key][:item_name] = nil

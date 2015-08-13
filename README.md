@@ -93,6 +93,30 @@ Hash. Used to generate a plugins.properties file from encrypted data bags for se
 
 Default value: `{}`
 
+### [:scout][:delete_on_shutdown]
+
+If true, will run a shutdown script to remove the server from Scout when the server is shutdown.
+
+Default value: `nil`
+
+### [:scout][:repo][:enable]
+
+If true, will install the correct archive.scoutapp.com repository based on the hosts platform.  Only disable if you have the scoutd package hosted in a repository already installed on the host.
+
+Default value: `true`
+
+### [:scout][:key][:bag_name]
+
+If speficied, the account_key will be loaded from the given encrypted data bag. (Note: must also specifiy `[:scout][:key][:item_name]`)
+
+Default value: `nil`
+
+### [:scout][:key][:item_name]
+
+If speficied, the account_key will be loaded from the given encrypted data bag item under the `account_key` value in the bag. (Note: must also specifiy `[:scout][:key][:bag_name]`)
+
+Default value: `nil`
+
 ## Questions?
 
 Contact Scout (<support@scoutapp.com>) with any questions, suggestions, bugs, etc.

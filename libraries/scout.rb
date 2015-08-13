@@ -2,6 +2,17 @@
 include Chef::Mixin::ShellOut
 
 module Scout
+  def self.account_key(node)
+    if node[:scout][:key][:bag_name] && node[:scout][:key][:bag_name]
+      bag = Chef::EncryptedDataBagItem.load(node[:scout][:key][:bag_name], node[:scout][:key][:item_name])
+      bag['account_key']
+    elsif node[:scout][:account_key]
+      node[:scout][:account_key]
+    else
+      nil
+    end
+  end
+
   def self.gem_binary(node)
     ruby_path = node[:scout][:ruby_path] || 'ruby'
     if ruby_path.split(File::SEPARATOR).include?('wrappers') # if an RVM wrapper
