@@ -63,6 +63,7 @@ if account_key
       members 'scoutd'
       system  true
     end
+    notifies :restart, 'service[scout]', :delayed
   end
 
   # We only need the scout service definition so that we can
