@@ -89,7 +89,7 @@ Default value: `nil`
 
 ### [:scout][:plugin_properties]
 
-Hash. Used to generate a plugins.properties file from encrypted data bags for secure lookups. E.g. "haproxy.password" => {"encrypted_data_bag" => "shared_passwords", "item" => "haproxy_stats", "key" => "password"} will create a plugins.properties entry with "haproxy.password=PASSWORD" where PASSWORD is an encrypted data bag item "haproxy_stats" in encrypted_data_bag "shared_passwords" with key "password".
+Hash. Used to generate a plugins.properties file from string values or encrypted data bag items. For example, "haproxy.password" => "foobar" will create an entry "haproxy.password=foobar" in the plugins.properties file. Alternatively, "haproxy.password" => {"encrypted_data_bag" => "shared_passwords", "item" => "haproxy_stats", "key" => "password"} will create a plugins.properties entry with "haproxy.password=PASSWORD" where PASSWORD is an encrypted data bag item "haproxy_stats" in encrypted_data_bag "shared_passwords" with key "password".
 
 Default value: `{}`
 

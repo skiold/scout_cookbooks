@@ -147,8 +147,12 @@ template "/var/lib/scoutd/.scout/plugins.properties" do
   group "scoutd"
   variables lazy {
     plugin_properties = {}
-    node['scout']['plugin_properties'].each do |property, lookup_hash|
-      plugin_properties[property] = Chef::EncryptedDataBagItem.load(lookup_hash[:encrypted_data_bag], lookup_hash[:item])[lookup_hash[:key]]
+    node['scout']['plugin_properties'].each do |property, value|
+      if value.instance_of?(String)
+        plugin_properties[property] = value
+      else
+        plugin_properties[property] = Chef::EncryptedDataBagItem.load(value[:encrypted_data_bag], value[:item])[value[:key]]
+      end
     end
     {
       :plugin_properties => plugin_properties
