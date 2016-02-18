@@ -9,7 +9,7 @@ when 'ubuntu'
   apt_repository "scout" do
     key "https://archive.scoutapp.com/scout-archive.key"
     uri "http://archive.scoutapp.com"
-    components ["ubuntu", "main"]
+    components ["vivid", "main"]
     only_if { node[:scout][:repo][:enable] }
   end
 when 'debian'
